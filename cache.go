@@ -177,6 +177,7 @@ func NewCache(config *Config) (*Cache, error) {
 		ignoreInternalCost: config.IgnoreInternalCost,
 		cleanupTicker:      time.NewTicker(time.Duration(bucketDurationSecs) * time.Second / 2),
 	}
+	/*
 	cache.onExit = func(val interface{}) {
 		if config.OnExit != nil && val != nil {
 			config.OnExit(val)
@@ -210,6 +211,7 @@ func NewCache(config *Config) (*Cache, error) {
 	//       goroutines we have running cache.processItems(), so 1 should
 	//       usually be sufficient
 	go cache.processItems()
+	*/
 	return cache, nil
 }
 
@@ -227,6 +229,8 @@ func (c *Cache) Wait() {
 // value was found or not. The value can be nil and the boolean can be true at
 // the same time.
 func (c *Cache) Get(key interface{}) (interface{}, bool) {
+        return nil, false
+	/*
 	if c == nil || c.isClosed || key == nil {
 		return nil, false
 	}
@@ -239,6 +243,7 @@ func (c *Cache) Get(key interface{}) (interface{}, bool) {
 		c.Metrics.add(miss, keyHash, 1)
 	}
 	return value, ok
+	*/
 }
 
 // Set attempts to add the key-value item to the cache. If it returns false,
@@ -270,6 +275,7 @@ func (c *Cache) SetIfPresent(key, value interface{}, cost int64) bool {
 
 func (c *Cache) setInternal(key, value interface{},
 	cost int64, ttl time.Duration, onlyUpdate bool) bool {
+	/*
 	if c == nil || c.isClosed || key == nil {
 		return false
 	}
@@ -322,10 +328,13 @@ func (c *Cache) setInternal(key, value interface{},
 		c.Metrics.add(dropSets, keyHash, 1)
 		return false
 	}
+	*/
+	return false
 }
 
 // Del deletes the key-value item from the cache if it exists.
 func (c *Cache) Del(key interface{}) {
+	/*
 	if c == nil || c.isClosed || key == nil {
 		return
 	}
@@ -342,6 +351,8 @@ func (c *Cache) Del(key interface{}) {
 		Key:      keyHash,
 		Conflict: conflictHash,
 	}
+	*/
+	return
 }
 
 // GetTTL returns the TTL for the specified key and a bool that is true if the
@@ -390,6 +401,7 @@ func (c *Cache) Close() {
 // not an atomic operation (but that shouldn't be a problem as it's assumed that
 // Set/Get calls won't be occurring until after this).
 func (c *Cache) Clear() {
+	/*
 	if c == nil || c.isClosed {
 		return
 	}
@@ -424,6 +436,8 @@ loop:
 	}
 	// Restart processItems goroutine.
 	go c.processItems()
+	*/
+	return
 }
 
 // MaxCost returns the max cost of the cache.
