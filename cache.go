@@ -165,11 +165,11 @@ func NewCache(config *Config) (*Cache, error) {
 	case config.BufferItems == 0:
 		return nil, errors.New("BufferItems can't be zero")
 	}
-	policy := newPolicy(config.NumCounters, config.MaxCost)
+	//policy := newPolicy(config.NumCounters, config.MaxCost)
 	cache := &Cache{
 		store:              newShardedMap(config.ShouldUpdate),
-		policy:             policy,
-		getBuf:             newRingBuffer(policy, config.BufferItems),
+		//policy:             policy,
+		//getBuf:             newRingBuffer(policy, config.BufferItems),
 		setBuf:             make(chan *Item, setBufSize),
 		keyToHash:          config.KeyToHash,
 		stop:               make(chan struct{}),
